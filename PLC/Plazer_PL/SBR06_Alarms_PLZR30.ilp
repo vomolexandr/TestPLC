@@ -1,0 +1,128 @@
+(*2*)
+(* Network 0 *)
+(*Заборона натиснення старт/стоп, коли перемикач у позиції External control*)
+LD    %M2.2
+ORN    %M2.4
+S    %M2.1
+(* Network 1 *)
+(*Заборона натиснення старт/стоп, коли перемикач у позиції External control*)
+LDN    %M2.2
+AND    %M2.4
+R    %M2.1
+(* Network 2 *)
+(*Заборона перемикання local/remote, коли іде процесЗаборона переходу в інші режими, коли іде процес*)
+LD    %M3.2
+ST   %M2.3
+ST   %M2.7
+(* Network 3 *)
+(*Скидання готовності при виникненні аларму*)
+LD    %M3.0
+R    %M2.4
+(* Network 4 *)
+(*Скидання аларму*)
+LD    %M3.3
+MOVE    0, %VW6
+R    %M3.0
+(* Network 5 *)
+(*Формування готовності0. Відсутність аларму1. Тиск плазмоутворюючого газу в зазначеному діапазоні.2. Тиск outlet mix в зазначеному діапазоні.*)
+LDN    %M3.0
+LT    %VW214, %VW120
+GE    %VW214, %VW118
+LT    %VW212, %VW124
+GE    %VW212, %VW122
+LT    %VW236, %VW140
+GE    %VW236, %VW138
+S    %M2.4
+(* Network 6 *)
+(*Формування неготовності1. Тиск плазмоутворюючого газу не в нормі2. Тиск outlet mix не в нормі*)
+LDN    %M3.0
+LT    %VW214, %VW118
+OR(
+LDN    %M3.0
+GE    %VW214, %VW120
+)
+OR(
+LDN    %M3.0
+LT    %VW212, %VW122
+)
+OR(
+LDN    %M3.0
+GE    %VW212, %VW124
+)
+OR(
+LDN    %M3.0
+LT    %VW236, %VW138
+)
+OR(
+LDN    %M3.0
+GE    %VW236, %VW140
+)
+ANDN    %M3.1
+R    %M2.4
+(* Network 7 *)
+(*Формування аларму:1. Тиск робочого плазмоутворюючого газу не в нормі2. Тиск outlet mix не в нормі*)
+LD    %M3.1
+TON   T79, %VW58
+AND(
+LD    %SM0.0
+GE    %VW214, %VW120
+MOVE    7, %VW6
+OR(
+LD    %SM0.0
+LT    %VW214, %VW118
+MOVE    8, %VW6
+)
+OR(
+LD    %SM0.0
+GE    %VW212, %VW124
+MOVE    15, %VW6
+)
+OR(
+LD    %SM0.0
+LT    %VW212, %VW122
+MOVE    16, %VW6
+)
+OR(
+LD    %SM0.0
+GE    %VW236, %VW140
+MOVE    17, %VW6
+)
+OR(
+LD    %SM0.0
+LT    %VW236, %VW138
+MOVE    18, %VW6
+)
+)
+TON   T80, %VW60
+S    %M3.0
+(* Network 8 *)
+(*Формування аларму:Струм не в норміВідсутність дуги*)
+LD    %M3.1
+TON   T83, %VW106
+TON   T84, %VW100
+TON   T87, %VW54
+TON   T81, %VW56
+MOVE    %VW200, %VW228
+SUB    4000, %VW228
+DIV    16, %VW228
+MUL    10, %VW228
+AND(
+LD    %SM0.0
+MOVE    %VW10, %VW224
+ADD    %VW116, %VW224
+GE    %VW228, %VW224
+MOVE    12, %VW6
+OR(
+LD    %SM0.0
+MOVE    %VW10, %VW226
+SUB    %VW116, %VW226
+LT    %VW228, %VW226
+MOVE    13, %VW6
+)
+OR(
+LDN    %I1.1
+MOVE    14, %VW6
+)
+)
+TON   T82, %VW60
+S    %M3.0
