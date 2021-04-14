@@ -1,47 +1,50 @@
 (*2*)
 (* Network 0 *)
 LD    %SM0.0
-CAL    SBR09
+CAL    SBR10
 (* Network 1 *)
 LD    %SM0.0
-CAL    SBR08
+CAL    SBR09
 (* Network 2 *)
 LD    %SM0.0
-CAL    SBR07
+CAL    SBR08
 (* Network 3 *)
+LD    %SM0.0
+CAL    SBR07
+(* Network 4 *)
 (*Генератор імпульсів*)
 LD    %M7.0
 TON   T0, %VW262
 R    %M7.0
-(* Network 4 *)
+(* Network 5 *)
 (*Генератор імпульсів*)
 LDN    %M7.0
 TON   T1, %VW264
 S    %M7.0
-(* Network 5 *)
-LD    %SM0.0
-CAL    SBR02
 (* Network 6 *)
 LD    %SM0.0
-EQ    %VW0, 0
-CAL    SBR01
+CAL    SBR02
 (* Network 7 *)
 LD    %SM0.0
 EQ    %VW0, 0
-CAL    SBR00
+CAL    SBR01
 (* Network 8 *)
 LD    %SM0.0
-EQ    %VW0, 1
-CAL    SBR03
+EQ    %VW0, 0
+CAL    SBR00
 (* Network 9 *)
 LD    %SM0.0
 EQ    %VW0, 1
-CAL    SBR04
+CAL    SBR03
 (* Network 10 *)
+LD    %SM0.0
+EQ    %VW0, 1
+CAL    SBR04
+(* Network 11 *)
 LD    %SM0.0
 EQ    %VW0, 3
 CAL    SBR05
-(* Network 11 *)
+(* Network 12 *)
 LD    %SM0.0
 EQ    %VW0, 3
 CAL    SBR06
